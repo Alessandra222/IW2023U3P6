@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Product } from '../models/product.model';
 import { CartService } from '../services/cart.service';
+import { Router } from '@angular/router';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-tab1',
@@ -37,36 +39,9 @@ export class Tab1Page {
     }
   ];
 
-  constructor(private cartService: CartService) {
-    this.products.push({
-      name: "Aguacate",
-      price: 100,
-      description: "Lorem ipsum dolor sit amet.",
-      type: "Frutas y Verduras",
-      photo: "https://picsum.photos/500/300?random",
-    });
-    this.products.push({
-      name: "Coca Cola",
-      price: 20,
-      description: "Lorem ipsum dolor sit amet.",
-      type: "Abarrotes",
-      photo: "https://picsum.photos/500/300?random"
-    });
-    this.products.push({
-      name: "Jabón Zote",
-      price: 40,
-      description: "Lorem ipsum dolor sit amet.",
-      type: "Limpieza",
-      photo: "https://picsum.photos/500/300?random"
-    });
-    this.products.push({
-      name: "Aspirina",
-      price: 50,
-      description: "Lorem ipsum dolor sit amet.",
-      type: "Farmacia",
-      photo: "https://picsum.photos/500/300?random"
-    });
-    this.productsFounds = this.products;
+  constructor(private cartService: CartService, private router:Router, private productService: ProductService) {
+
+    this.productsFounds = this.productService.getProducts();
 
   }
 
@@ -91,6 +66,14 @@ export class Tab1Page {
     product.photo = product.photo + i;
     this.cartService.addToCart(product);
     console.log(this.cartService.getCart());
+  }
+
+  public openAddProductPage(){
+    this.router.navigate(['/add-product']);
+  }
+
+  public open(){
+    this.productService.getProducts();
   }
 
 

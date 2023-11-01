@@ -5,7 +5,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">  
+<ion-content [fullscreen]="true"> 
+  <ion-fab vertical="stop" horizontal="end" slot="fixed" [edge]="true">
+    <ion-fab-button (click)="openAddProductPage()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> 
   <ion-grid>
     <ion-row>
       <ion-col size="12">
