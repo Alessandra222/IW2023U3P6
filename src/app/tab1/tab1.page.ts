@@ -3,6 +3,7 @@ import { Product } from '../models/product.model';
 import { CartService } from '../services/cart.service';
 import { Router } from '@angular/router';
 import { ProductService } from '../services/product.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -39,7 +40,7 @@ export class Tab1Page {
     }
   ];
 
-  constructor(private cartService: CartService, private router:Router, private productService: ProductService) {
+  constructor(private cartService: CartService, private router:Router, private productService: ProductService, private toastC: ToastController) {
 
     this.productsFounds = this.productService.getProducts();
 
@@ -72,8 +73,30 @@ export class Tab1Page {
     this.router.navigate(['/add-product']);
   }
 
-  public open(){
-    this.productService.getProducts();
+  public openUpdateProductPage(i:number){
+    this.productService.num=i;
+    console.log(this.productService.getProduct(i))
+    this.router.navigate(['/update-product']);
+  }
+  public async removeProduct (pos: number){
+    const toast = await this.toastC.create({
+      header: 'Confirmación',
+      message: '¿Quieres Eliminar este producto?',
+      buttons: [
+        {
+          text: 'No',role: 'cancel',handler: () => {},
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.productService.removeProduct(pos);
+          },
+        },
+      ],
+    });
+  
+    await toast.present();
+    
   }
 
 
